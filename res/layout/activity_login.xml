@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="onLoginButtonClick"
+        android:text="@string/login_activity_login_with_twitter" />
+
+    <TextView
+        android:id="@+id/signup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onSignUpButtonClick"
+        android:text="@string/login_activity_sign_up_for_twitter" />
+
+    <WebView
+        android:id="@+id/login_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
+</RelativeLayout>
