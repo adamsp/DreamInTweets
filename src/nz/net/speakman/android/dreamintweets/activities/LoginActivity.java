@@ -16,9 +16,9 @@
 
 package nz.net.speakman.android.dreamintweets.activities;
 
+import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
-import nz.net.speakman.android.dreamintweets.twitterprovider.DreamTwitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
     private void onAccessTokenAcquired() {
         DreamPreferences prefs = new DreamPreferences(this);
         prefs.putAccessToken(mAccessToken);
-        DreamTwitter.getTwitter().setOAuthAccessToken(mAccessToken);
+        ((DreamApplication)getApplication()).getTwitter().setOAuthAccessToken(mAccessToken);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
@@ -86,7 +86,7 @@ public class LoginActivity extends Activity {
         @Override
         protected RequestToken doInBackground(Void... params) {
             try {
-                RequestToken requestToken = DreamTwitter.getTwitter().getOAuthRequestToken();
+                RequestToken requestToken = ((DreamApplication)getApplication()).getTwitter().getOAuthRequestToken();
                 return requestToken;
             } catch (TwitterException e) {
                 // TODO Twitter is down?! OSHIT.
@@ -109,7 +109,7 @@ public class LoginActivity extends Activity {
         @Override
         protected AccessToken doInBackground(String... params) {
             try {
-                AccessToken at = DreamTwitter.getTwitter().getOAuthAccessToken(mRequestToken, params[0]);
+                AccessToken at = ((DreamApplication)getApplication()).getTwitter().getOAuthAccessToken(mRequestToken, params[0]);
                 return at;
             } catch (TwitterException e) {
                 // TODO Auto-generated catch block

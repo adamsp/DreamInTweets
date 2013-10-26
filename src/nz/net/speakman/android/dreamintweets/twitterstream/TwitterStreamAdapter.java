@@ -18,48 +18,45 @@ package nz.net.speakman.android.dreamintweets.twitterstream;
 
 import java.util.LinkedList;
 
+import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import twitter4j.Status;
-import android.app.ActivityManager;
-import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class TwitterStreamAdapter extends BaseAdapter {
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
+public class TwitterStreamAdapter extends BaseAdapter {
+    
     private class TwitterStreamViewHolder {
         TextView author;
         TextView content;
+        NetworkImageView authorImage;
     }
 
     private static final int MAX_NUMBER_OF_TWEETS = 50;
-    
+
     LinkedList<Status> mTweets = new LinkedList<Status>();
     private Context mContext;
 
-
     public TwitterStreamAdapter(Context context) {
         mContext = context;
+
     }
-    
+
     public void onNewStatus(Status status) {
         synchronized (mTweets) {
             mTweets.addFirst(status);
-            if(mTweets.size() > MAX_NUMBER_OF_TWEETS) {
+            if (mTweets.size() > MAX_NUMBER_OF_TWEETS) {
                 mTweets.removeLast();
             }
         }
         notifyDataSetChanged();
-        MemoryInfo mi = new MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        activityManager.getMemoryInfo(mi);
-        long availableMegs = mi.availMem / 1048576L;
-        Log.e("TweetDream", "Available Memory: " + availableMegs);
     }
 
     /*
@@ -93,6 +90,8 @@ public class TwitterStreamAdapter extends BaseAdapter {
                     .findViewById(R.id.tweet_author);
             holder.content = (TextView) convertView
                     .findViewById(R.id.tweet_content);
+            holder.authorImage = (NetworkImageView) convertView
+                    .findViewById(R.id.tweet_author_image);
             convertView.setTag(holder);
         } else {
             holder = (TwitterStreamViewHolder) convertView.getTag();
@@ -100,7 +99,12 @@ public class TwitterStreamAdapter extends BaseAdapter {
         holder.author.setText(tweet.getUser().getName() + " / "
                 + tweet.getUser().getScreenName());
         holder.content.setText(tweet.getText());
+        holder.authorImage.setImageUrl(tweet.getUser().getBiggerProfileImageURLHttps(), getImageLoader());
         return convertView;
+    }
+    
+    private ImageLoader getImageLoader() {
+        return ((DreamApplication)mContext.getApplicationContext()).getImageLoader();
     }
 
 }

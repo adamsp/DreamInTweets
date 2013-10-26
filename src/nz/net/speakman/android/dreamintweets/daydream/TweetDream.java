@@ -16,9 +16,9 @@
 
 package nz.net.speakman.android.dreamintweets.daydream;
 
+import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
-import nz.net.speakman.android.dreamintweets.twitterprovider.DreamTwitter;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamAdapter;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamListener;
 import twitter4j.TwitterStream;
@@ -47,7 +47,7 @@ public class TweetDream extends DreamService {
         lv.setAdapter(streamAdapter);
 
         TwitterStreamListener streamListener = new TwitterStreamListener(streamAdapter);
-        twitterStream = DreamTwitter.getTwitterStream();
+        twitterStream = ((DreamApplication)getApplication()).getTwitterStream();
         twitterStream.setOAuthAccessToken(prefs.getAccessToken());
         twitterStream.addListener(streamListener);
         twitterStream.user();
