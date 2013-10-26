@@ -20,7 +20,10 @@ import java.util.LinkedList;
 
 import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
+import twitter4j.HashtagEntity;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
+import twitter4j.URLEntity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +84,7 @@ public class TwitterStreamAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Status tweet = getItem(position);
+        
         TwitterStreamViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
@@ -98,9 +102,28 @@ public class TwitterStreamAdapter extends BaseAdapter {
         }
         holder.author.setText(tweet.getUser().getName() + " / "
                 + tweet.getUser().getScreenName());
-        holder.content.setText(tweet.getText());
+        holder.content.setText(getTweetText(tweet));
         holder.authorImage.setImageUrl(tweet.getUser().getBiggerProfileImageURLHttps(), getImageLoader());
         return convertView;
+    }
+    
+    private String getTweetText(Status tweet) {
+        String text = tweet.getText();
+
+        for(URLEntity urlEntity : tweet.getURLEntities()) {
+            // TODO Make clickable
+            text = text.replace(urlEntity.getURL(), urlEntity.getDisplayURL());
+        }
+        
+        for(MediaEntity mediaEntity : tweet.getMediaEntities()) {
+            // TODO Make clickable
+            text = text.replace(mediaEntity.getURL(), mediaEntity.getDisplayURL());
+        }
+        
+        for(HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
+            // TODO Make clickable
+        }
+        return text;
     }
     
     private ImageLoader getImageLoader() {
