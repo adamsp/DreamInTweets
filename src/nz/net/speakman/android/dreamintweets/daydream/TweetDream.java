@@ -32,7 +32,6 @@ public class TweetDream extends DreamService {
     @Override
     public void onDreamingStarted() {
         super.onDreamingStarted();
-        setFullscreen(true);
         setInteractive(true);
         
         DreamPreferences prefs = new DreamPreferences(this);

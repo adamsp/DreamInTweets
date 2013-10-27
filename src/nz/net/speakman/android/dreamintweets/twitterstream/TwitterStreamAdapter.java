@@ -20,11 +20,15 @@ import java.util.LinkedList;
 
 import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
+import nz.net.speakman.android.dreamintweets.text.DreamLinkMovementMethod;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
-import android.content.Context;
+import android.service.dreams.DreamService;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +48,14 @@ public class TwitterStreamAdapter extends BaseAdapter {
 
     private static final int MAX_NUMBER_OF_TWEETS = 50;
 
+    private static final String URL_FORMAT_STRING = "<a href=\"%1$s\">%2$s</a>";
+
     LinkedList<Status> mTweets = new LinkedList<Status>();
-    private Context mContext;
 
-    public TwitterStreamAdapter(Context context) {
-        mContext = context;
+    private DreamService mDream;
 
+    public TwitterStreamAdapter(DreamService dream) {
+        mDream = dream;
     }
 
     public void onNewStatus(Status status) {
@@ -87,13 +93,15 @@ public class TwitterStreamAdapter extends BaseAdapter {
         
         TwitterStreamViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(
+            convertView = LayoutInflater.from(mDream).inflate(
                     R.layout.tweet_row, parent, false);
             holder = new TwitterStreamViewHolder();
             holder.author = (TextView) convertView
                     .findViewById(R.id.tweet_author);
             holder.content = (TextView) convertView
                     .findViewById(R.id.tweet_content);
+            LinkMovementMethod lmm = new DreamLinkMovementMethod(mDream);
+            holder.content.setMovementMethod(lmm);
             holder.authorImage = (NetworkImageView) convertView
                     .findViewById(R.id.tweet_author_image);
             convertView.setTag(holder);
@@ -107,27 +115,39 @@ public class TwitterStreamAdapter extends BaseAdapter {
         return convertView;
     }
     
-    private String getTweetText(Status tweet) {
+    private Spanned getTweetText(Status tweet) {
         String text = tweet.getText();
 
         for(URLEntity urlEntity : tweet.getURLEntities()) {
-            // TODO Make clickable
-            text = text.replace(urlEntity.getURL(), urlEntity.getDisplayURL());
+            text = text.replace(urlEntity.getURL(), getClickableURL(urlEntity));
         }
         
         for(MediaEntity mediaEntity : tweet.getMediaEntities()) {
-            // TODO Make clickable
-            text = text.replace(mediaEntity.getURL(), mediaEntity.getDisplayURL());
+            // TODO Optionally load images into stream
+            text = text.replace(mediaEntity.getURL(), getClickableMedia(mediaEntity));
         }
         
         for(HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
             // TODO Make clickable
         }
-        return text;
+        return Html.fromHtml(text);
+//        return text;
     }
     
     private ImageLoader getImageLoader() {
-        return ((DreamApplication)mContext.getApplicationContext()).getImageLoader();
+        return ((DreamApplication)mDream.getApplicationContext()).getImageLoader();
+    }
+    
+    private String getClickableURL(URLEntity entity) {
+        return String.format(URL_FORMAT_STRING, entity.getURL(), entity.getDisplayURL());
+    }
+    
+    private String getClickableMedia(MediaEntity entity) {
+        return getClickableURL(entity);
+    }
+    
+    private String getClickableHashtag(HashtagEntity entity) {
+        return "";
     }
 
 }
