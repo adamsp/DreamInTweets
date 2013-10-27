@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="login_activity_login_with_twitter">Login</string>
     <string name="login_activity_sign_up_for_twitter">Sign up</string>
+    
+    <string name="tweet_retweet_icon_description">Retweet Icon</string>
 
 </resources>

@@ -16,26 +16,67 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tweet_author"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
-        android:orientation="vertical" >
+        android:ellipsize="end"
+        android:text="author" />
 
-        <TextView
-            android:id="@+id/tweet_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end" />
+    <TextView
+        android:id="@+id/tweet_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/tweet_author"
+        android:ellipsize="end"
+        android:text="username" />
 
-        <TextView
-            android:id="@+id/tweet_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tweet_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:ellipsize="end"
+        android:text="4m ago" />
+
+    <TextView
+        android:id="@+id/tweet_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tweet_author"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/tweet_author_image"
+        android:singleLine="false"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue erat, at laoreet arcu. Donec egestas vestibulum condimentum metus."
+        android:textColor="@android:color/black" />
+    
+    <ImageView
+        android:id="@+id/tweet_retweet_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_below="@id/tweet_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/tweet_author_image"
+        android:contentDescription="@string/tweet_retweet_icon_description"
+        android:src="@drawable/ic_retweet" />
+    
+    <TextView
+        android:id="@+id/tweet_retweet_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tweet_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/tweet_retweet_icon"
+        android:ellipsize="end"
+        android:text="Retweeted by Some Author"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>
