@@ -2,17 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp" >
+    android:layout_marginTop="8dp"
+    android:background="@drawable/card_background_white"
+    android:paddingBottom="16dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp" >
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/tweet_author_image"
         android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
-        android:paddingLeft="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
         android:orientation="vertical" >
 

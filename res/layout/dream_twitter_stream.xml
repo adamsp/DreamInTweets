@@ -3,6 +3,7 @@
     android:id="@+id/dream_twitter_stream_list_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white" >
-
-</ListView>
+    android:padding="8dp"
+    android:background="#e5e5e5"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="4dp"/>
