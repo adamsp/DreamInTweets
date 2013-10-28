@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.text.DreamLinkMovementMethod;
+import nz.net.speakman.android.dreamintweets.text.TextViewLinkHider;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -40,7 +41,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 public class TwitterStreamAdapter extends BaseAdapter {
-    
+
     private class TwitterStreamViewHolder {
         TextView author;
         TextView username;
@@ -54,10 +55,10 @@ public class TwitterStreamAdapter extends BaseAdapter {
     private static final int MAX_NUMBER_OF_TWEETS = 50;
 
     private static final String CLICKABLE_URL_FORMAT_STRING = "<a href=\"%1$s\">%2$s</a>";
-    
-    private static final String CLICKABLE_URL_FORMAT_STRING_NO_UNDERLINE = "<a href=\"%1$s\" style=\"text-decoration: none\">%2$s</a>";
-    
+
     private static final String URL_FORMAT_TWEET_LINK = "https://twitter.com/%1$s/status/%2$s";
+
+    private static final String URL_FORMAT_USER_LINK = "https://twitter.com/%s";
 
     LinkedList<Status> mTweets = new LinkedList<Status>();
 
@@ -99,47 +100,52 @@ public class TwitterStreamAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Status tweet = getItem(position);
-        
+
         TwitterStreamViewHolder holder;
         if (convertView == null) {
             LinkMovementMethod lmm = new DreamLinkMovementMethod(mDream);
             convertView = LayoutInflater.from(mDream).inflate(
                     R.layout.tweet_row, parent, false);
             holder = new TwitterStreamViewHolder();
-            
+
             holder.authorImage = (NetworkImageView) convertView
                     .findViewById(R.id.tweet_author_image);
-            
+
             holder.author = (TextView) convertView
                     .findViewById(R.id.tweet_author);
             holder.author.setMovementMethod(lmm);
-            
-            holder.username = (TextView) convertView.findViewById(R.id.tweet_username);
+
+            holder.username = (TextView) convertView
+                    .findViewById(R.id.tweet_username);
             holder.username.setMovementMethod(lmm);
-            
-            holder.timestamp = (TextView) convertView.findViewById(R.id.tweet_timestamp);
+
+            holder.timestamp = (TextView) convertView
+                    .findViewById(R.id.tweet_timestamp);
             holder.timestamp.setMovementMethod(lmm);
-            
+
             holder.content = (TextView) convertView
                     .findViewById(R.id.tweet_content);
             holder.content.setMovementMethod(lmm);
-            
-            holder.retweetIcon = convertView.findViewById(R.id.tweet_retweet_icon);
-            
-            holder.retweetAuthor = (TextView)convertView.findViewById(R.id.tweet_retweet_author);
+
+            holder.retweetIcon = convertView
+                    .findViewById(R.id.tweet_retweet_icon);
+
+            holder.retweetAuthor = (TextView) convertView
+                    .findViewById(R.id.tweet_retweet_author);
             holder.retweetAuthor.setMovementMethod(lmm);
-            
+
             convertView.setTag(holder);
         } else {
             holder = (TwitterStreamViewHolder) convertView.getTag();
         }
 
-        if(tweet.isRetweet()) {
-            // We have a retweet - setup the retweeting users details & retweet icon.
+        if (tweet.isRetweet()) {
+            // We have a retweet - setup the retweeting users details & retweet
+            // icon.
             holder.retweetAuthor.setVisibility(View.VISIBLE);
             holder.retweetAuthor.setText(getTweetAuthor(tweet));
             holder.retweetIcon.setVisibility(View.VISIBLE);
-            
+
             // Then populate the rest of the view with the retweeted status.
             tweet = tweet.getRetweetedStatus();
         } else {
@@ -147,72 +153,99 @@ public class TwitterStreamAdapter extends BaseAdapter {
             holder.retweetIcon.setVisibility(View.GONE);
         }
         
-        holder.authorImage.setImageUrl(tweet.getUser().getBiggerProfileImageURLHttps(), getImageLoader());
+        holder.authorImage.setImageUrl(tweet.getUser()
+                .getBiggerProfileImageURLHttps(), getImageLoader());
         holder.author.setText(getTweetAuthor(tweet));
         holder.username.setText(getTweetUsername(tweet));
         holder.timestamp.setText(getTweetTimestamp(tweet));
         holder.content.setText(getTweetText(tweet));
+
+        // Hide underlining/coloring of non-content links.
+        hideLinks(holder);
         
+        // Hide underlining of content links
+        hideLinkUnderlines(holder);
+
         return convertView;
     }
-    
+
     private Spanned getTweetAuthor(Status tweet) {
         User user = tweet.getUser();
-        return Html.fromHtml(getClickableUrlNoUnderline("https://twitter.com/" + user.getName(), user.getName()));
+        return Html.fromHtml(getClickableUrl(getUserUrl(user), user.getName()));
     }
-    
+
     private Spanned getTweetUsername(Status tweet) {
         User user = tweet.getUser();
-        return Html.fromHtml(getClickableUrlNoUnderline("https://twitter.com/" + user.getName(), "@" + user.getScreenName()));
+        return Html.fromHtml(getClickableUrl(getUserUrl(user),
+                "@" + user.getScreenName()));
     }
-    
+
     private Spanned getTweetTimestamp(Status tweet) {
-        String link = String.format(URL_FORMAT_TWEET_LINK, tweet.getUser().getScreenName(), tweet.getId());
         // TODO Calculate timestamp correctly
         String timestamp = tweet.getCreatedAt().toString();
-        return Html.fromHtml(getClickableUrlNoUnderline(link, timestamp));
+        return Html.fromHtml(getClickableUrl(getTweetUrl(tweet), timestamp));
     }
-    
+
     private Spanned getTweetText(Status tweet) {
         String text = tweet.getText();
 
-        for(URLEntity urlEntity : tweet.getURLEntities()) {
+        for (URLEntity urlEntity : tweet.getURLEntities()) {
             text = text.replace(urlEntity.getURL(), getClickableUrl(urlEntity));
         }
-        
-        for(MediaEntity mediaEntity : tweet.getMediaEntities()) {
+
+        for (MediaEntity mediaEntity : tweet.getMediaEntities()) {
             // TODO Optionally load images into stream
-            text = text.replace(mediaEntity.getURL(), getClickableMedia(mediaEntity));
+            text = text.replace(mediaEntity.getURL(),
+                    getClickableMedia(mediaEntity));
         }
-        
-        for(HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
+
+        for (HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
             // TODO Make clickable
         }
         return Html.fromHtml(text);
     }
-    
+
     private ImageLoader getImageLoader() {
-        return ((DreamApplication)mDream.getApplicationContext()).getImageLoader();
+        return ((DreamApplication) mDream.getApplicationContext())
+                .getImageLoader();
     }
-    
-    private String getClickableUrlNoUnderline(String link, String display) {
-        return String.format(CLICKABLE_URL_FORMAT_STRING_NO_UNDERLINE, link, display);        
+
+    private String getUserUrl(User user) {
+        return String.format(URL_FORMAT_USER_LINK, user.getScreenName());
     }
-    
+
+    private String getTweetUrl(Status tweet) {
+        return String.format(URL_FORMAT_TWEET_LINK, tweet.getUser()
+                .getScreenName(), tweet.getId());
+    }
+
     private String getClickableUrl(String link, String display) {
         return String.format(CLICKABLE_URL_FORMAT_STRING, link, display);
     }
-    
+
     private String getClickableUrl(URLEntity entity) {
         return getClickableUrl(entity.getURL(), entity.getDisplayURL());
     }
-    
+
     private String getClickableMedia(MediaEntity entity) {
         return getClickableUrl(entity);
     }
-    
+
     private String getClickableHashtag(HashtagEntity entity) {
         return "";
+    }
+    
+    private void hideLinkUnderlines(TwitterStreamViewHolder holder) {
+        TextViewLinkHider linkHider = new TextViewLinkHider();
+        linkHider.hideLinkUnderlines(holder.content);
+    }
+
+    private void hideLinks(TwitterStreamViewHolder holder) {
+        TextViewLinkHider linkHider = new TextViewLinkHider();
+        linkHider.hideLinks(holder.retweetAuthor);
+        linkHider.hideLinks(holder.author);
+        linkHider.hideLinks(holder.username);
+        linkHider.hideLinks(holder.timestamp);
     }
 
 }
