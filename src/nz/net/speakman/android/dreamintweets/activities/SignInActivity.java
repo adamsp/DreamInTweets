@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Browser;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -51,10 +52,20 @@ public class SignInActivity extends Activity {
     }
     
     public void onSignUpButtonClick(View view) {
-        // TODO
+        // For now, we launch into another app to do sign up. This is unlikely to be a common use case.
+        Uri uri = Uri.parse("https://twitter.com/signup");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        String packageName = getPackageName();
+        intent.putExtra(Browser.EXTRA_APPLICATION_ID, packageName);
+        startActivity(intent);
     }
     
     private void onRequestTokenAcquired() {
+        // TODO Handle Twitter being down in a nicer way than this.
+        if (mRequestToken == null) {
+            mWebView.setVisibility(View.INVISIBLE);
+            return;
+        }
         mWebView.setWebViewClient(new WebViewClient() {
             
             @Override
@@ -89,7 +100,7 @@ public class SignInActivity extends Activity {
                 RequestToken requestToken = ((DreamApplication)getApplication()).getTwitter().getOAuthRequestToken();
                 return requestToken;
             } catch (TwitterException e) {
-                // TODO Twitter is down?! OSHIT.
+                // TODO Handle Twitter being down in a nicer way than this.
                 e.printStackTrace();
             }
             return null;

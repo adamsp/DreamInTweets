@@ -21,6 +21,7 @@
         android:layout_below="@+id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:layout_margin="8dp"
+        android:clickable="true"
         android:onClick="onSignUpButtonClick"
         android:text="@string/login_activity_sign_up_for_twitter" />
 
