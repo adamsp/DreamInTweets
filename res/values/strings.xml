@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Dream In Tweets (Twitter Daydream)</string>
+    <string name="app_name">Dream In Tweets</string>
     
     <string name="main_activity_signed_in_as">Signed in as @%s</string>
     <string name="main_activity_sign_out">Sign Out</string>
