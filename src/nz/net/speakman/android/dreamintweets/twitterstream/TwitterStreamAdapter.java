@@ -16,6 +16,7 @@
 
 package nz.net.speakman.android.dreamintweets.twitterstream;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 import nz.net.speakman.android.dreamintweets.DreamApplication;
@@ -181,8 +182,30 @@ public class TwitterStreamAdapter extends BaseAdapter {
     }
 
     private Spanned getTweetTimestamp(Status tweet) {
-        // TODO Calculate timestamp correctly
-        String timestamp = tweet.getCreatedAt().toString();
+        Date tweetTime = tweet.getCreatedAt();
+        Date now = new Date();
+        Date difference = new Date(now.getTime() - tweetTime.getTime());
+        long diff = difference.getTime() / 1000;
+        String timestamp;
+        if (diff <= 0) {
+            timestamp = mDream.getString(R.string.tweet_timestamp_just_now);
+        } else if (diff / (24 * 60 * 60) > 0) {
+            diff = diff / (24 * 60 * 60);
+            if (diff > 1) timestamp = mDream.getString(R.string.tweet_timestamp_x_days_ago, diff);
+            else timestamp = mDream.getString(R.string.tweet_timestamp_1_day_ago);
+        } else if (diff / (60 * 60) > 0) {
+            diff = diff / (60 * 60);
+            if (diff > 1) timestamp = mDream.getString(R.string.tweet_timestamp_x_hours_ago, diff);
+            else timestamp = mDream.getString(R.string.tweet_timestamp_1_hour_ago);
+        } else if (diff / 60 > 0) {
+            diff = diff / 60;
+            if (diff > 1) timestamp = mDream.getString(R.string.tweet_timestamp_x_minutes_ago, diff);
+            else timestamp = mDream.getString(R.string.tweet_timestamp_1_minute_ago);
+        } else {
+            if (diff > 1) timestamp = mDream.getString(R.string.tweet_timestamp_x_seconds_ago, diff);
+            else timestamp = mDream.getString(R.string.tweet_timestamp_1_second_ago);
+        }
+        
         return Html.fromHtml(getClickableUrl(getTweetUrl(tweet), timestamp));
     }
 

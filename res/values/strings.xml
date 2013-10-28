@@ -8,5 +8,14 @@
     <string name="login_activity_sign_up_for_twitter">Sign up</string>
     
     <string name="tweet_retweet_icon_description">Retweet Icon</string>
+    <string name="tweet_timestamp_x_days_ago">%s days ago</string>
+    <string name="tweet_timestamp_1_day_ago">1 day ago</string>
+    <string name="tweet_timestamp_x_hours_ago">%s hours ago</string>
+    <string name="tweet_timestamp_1_hour_ago">1 hour ago</string>
+    <string name="tweet_timestamp_x_minutes_ago">%s minutes ago</string>
+    <string name="tweet_timestamp_1_minute_ago">1 minute ago</string>
+    <string name="tweet_timestamp_x_seconds_ago">%s seconds ago</string>
+    <string name="tweet_timestamp_1_second_ago">1 second ago</string>
+    <string name="tweet_timestamp_just_now">just now</string>
 
 </resources>
