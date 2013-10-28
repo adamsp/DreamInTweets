@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="nz.net.speakman.android.dreamintweets.activities.LoginActivity" />
+        <activity android:name="nz.net.speakman.android.dreamintweets.activities.SignInActivity" />
 
         <service
             android:name="nz.net.speakman.android.dreamintweets.daydream.TweetDream"

@@ -32,7 +32,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class LoginActivity extends Activity {
+public class SignInActivity extends Activity {
     
     private WebView mWebView;
     private RequestToken mRequestToken;
@@ -41,8 +41,8 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mWebView = (WebView) findViewById(R.id.login_web_view);
+        setContentView(R.layout.activity_sign_in);
+        mWebView = (WebView) findViewById(R.id.sign_in_web_view);
     }
     
     public void onLoginButtonClick(View view) {

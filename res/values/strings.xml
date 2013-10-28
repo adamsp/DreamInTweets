@@ -2,12 +2,11 @@
 <resources>
 
     <string name="app_name">Dream In Tweets (Twitter Daydream)</string>
-    <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="login_activity_login_with_twitter">Login</string>
-    <string name="login_activity_sign_up_for_twitter">Sign up</string>
+    <string name="login_activity_sign_in_with_twitter">Sign In with Twitter</string>
+    <string name="login_activity_sign_up_for_twitter">Sign Up for Twitter</string>
     
-    <string name="not_logged_in_message">You\'re not logged in to Twitter! Click anywhere to login.</string>
+    <string name="not_signed_in_message">You\'re not signed in to Twitter! Tap anywhere to sign in.</string>
     
     <string name="tweet_retweet_icon_description">Retweet Icon</string>
     <string name="tweet_timestamp_x_days_ago">%s days ago</string>

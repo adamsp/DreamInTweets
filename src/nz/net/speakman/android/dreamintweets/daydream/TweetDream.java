@@ -18,7 +18,7 @@ package nz.net.speakman.android.dreamintweets.daydream;
 
 import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
-import nz.net.speakman.android.dreamintweets.activities.LoginActivity;
+import nz.net.speakman.android.dreamintweets.activities.SignInActivity;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamAdapter;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamListener;
@@ -40,12 +40,12 @@ public class TweetDream extends DreamService {
         
         DreamPreferences prefs = new DreamPreferences(this);
         if (!prefs.userIsLoggedIn()) {
-            setContentView(R.layout.dream_not_logged_in);
-            findViewById(R.id.not_logged_in_container).setOnClickListener(new OnClickListener() {
+            setContentView(R.layout.dream_not_signed_in);
+            findViewById(R.id.not_signed_in_container).setOnClickListener(new OnClickListener() {
                 
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(TweetDream.this, LoginActivity.class);
+                    Intent i = new Intent(TweetDream.this, SignInActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                     finish();
@@ -70,7 +70,9 @@ public class TweetDream extends DreamService {
     @Override
     public void onDreamingStopped() {
         super.onDreamingStopped();
-        twitterStream.shutdown();
+        if(twitterStream != null) {
+            twitterStream.shutdown();
+        }
     }
 
 }
