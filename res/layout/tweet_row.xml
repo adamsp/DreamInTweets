@@ -23,16 +23,20 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
+        android:textSize="18sp"
         android:ellipsize="end"
-        android:text="author" />
+        android:text="author"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tweet_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/tweet_author"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author"
+        android:textSize="14sp"
         android:ellipsize="end"
         android:text="username" />
 
@@ -41,9 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/tweet_author"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:textSize="14sp"
         android:ellipsize="end"
         android:text="4m ago" />
 
@@ -53,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tweet_author"
         android:layout_marginLeft="8dp"
+        android:textSize="16sp"
         android:layout_toRightOf="@id/tweet_author_image"
         android:singleLine="false"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue erat, at laoreet arcu. Donec egestas vestibulum condimentum metus."
@@ -63,6 +69,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_below="@id/tweet_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
         android:contentDescription="@string/tweet_retweet_icon_description"
@@ -73,10 +80,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tweet_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"
+        android:textSize="14sp"
         android:layout_toRightOf="@id/tweet_retweet_icon"
         android:ellipsize="end"
-        android:text="Retweeted by Some Author"
-        android:textColor="@android:color/black" />
+        android:text="Retweeted by Some Author" />
 
 </RelativeLayout>
