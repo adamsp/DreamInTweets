@@ -7,6 +7,8 @@
     <string name="login_activity_login_with_twitter">Login</string>
     <string name="login_activity_sign_up_for_twitter">Sign up</string>
     
+    <string name="not_logged_in_message">You\'re not logged in to Twitter! Click anywhere to login.</string>
+    
     <string name="tweet_retweet_icon_description">Retweet Icon</string>
     <string name="tweet_timestamp_x_days_ago">%s days ago</string>
     <string name="tweet_timestamp_1_day_ago">1 day ago</string>
