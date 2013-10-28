@@ -18,9 +18,14 @@ package nz.net.speakman.android.dreamintweets.activities;
 
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Build.VERSION_CODES;
+import android.provider.Settings;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -28,12 +33,32 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!userIsLoggedIn()) {
-            Intent i = new Intent(this, SignInActivity.class);
-            startActivity(i);
-            finish();
+            startSignInActivity();
             return;
         }
         setContentView(R.layout.activity_main);
+    }
+    
+    public void onSignOutButtonClick(View v) {
+        new DreamPreferences(this).logoutUser();
+        startSignInActivity();
+    }
+    
+    @SuppressLint("InlinedApi")
+    public void onSettingsButtonClick(View v) {
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR2) {
+            intent = new Intent(Settings.ACTION_DREAM_SETTINGS);
+        } else {
+            intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
+        }
+        startActivity(intent);
+    }
+    
+    private void startSignInActivity() {
+        Intent i = new Intent(this, SignInActivity.class);
+        startActivity(i);
+        finish();
     }
     
     private boolean userIsLoggedIn() {

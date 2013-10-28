@@ -45,12 +45,12 @@ public class SignInActivity extends Activity {
         mWebView = (WebView) findViewById(R.id.sign_in_web_view);
     }
     
-    public void onLoginButtonClick(View view) {
+    public void onSignInButtonClick(View view) {
         mWebView.setVisibility(View.VISIBLE);
         new FetchRequestToken().execute();
     }
     
-    public void onSignupButtonClick(View view) {
+    public void onSignUpButtonClick(View view) {
         // TODO
     }
     

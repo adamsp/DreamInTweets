@@ -16,6 +16,7 @@
 
 package nz.net.speakman.android.dreamintweets.preferences;
 
+import nz.net.speakman.android.dreamintweets.DreamApplication;
 import twitter4j.auth.AccessToken;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -65,6 +66,8 @@ public class DreamPreferences {
         getPrefs().edit().remove(KEY_ACCESS_TOKEN)
                 .remove(KEY_ACCESS_TOKEN_SECRET)
                 .remove(KEY_ACCESS_TOKEN_USER_ID).commit();
+        ((DreamApplication) mContext.getApplicationContext()).getTwitter()
+                .setOAuthAccessToken(null);
     }
 
 }

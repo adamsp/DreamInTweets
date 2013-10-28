@@ -2,7 +2,11 @@
 <resources>
 
     <string name="app_name">Dream In Tweets (Twitter Daydream)</string>
-    <string name="hello_world">Hello world!</string>
+    
+    <string name="main_activity_signed_in_as">Signed in as @%s</string>
+    <string name="main_activity_sign_out">Sign Out</string>
+    <string name="main_activity_settings_enable_dream">Open Settings to enable Daydream</string>
+    
     <string name="login_activity_sign_in_with_twitter">Sign In with Twitter</string>
     <string name="login_activity_sign_up_for_twitter">Sign Up for Twitter</string>
     
