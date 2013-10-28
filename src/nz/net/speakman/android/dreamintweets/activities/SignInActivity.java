@@ -101,7 +101,6 @@ public class SignInActivity extends Activity {
                 return requestToken;
             } catch (TwitterException e) {
                 // TODO Handle Twitter being down in a nicer way than this.
-                e.printStackTrace();
             }
             return null;
         }
@@ -123,8 +122,7 @@ public class SignInActivity extends Activity {
                 AccessToken at = ((DreamApplication)getApplication()).getTwitter().getOAuthAccessToken(mRequestToken, params[0]);
                 return at;
             } catch (TwitterException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                // TODO Handle Twitter being down in a nicer way than this.
             }
             return null;
         }

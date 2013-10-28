@@ -83,10 +83,8 @@ public class MainActivity extends Activity {
                     screenname = twitter.getScreenName();
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
                 } catch (TwitterException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
                 return screenname;
             }
