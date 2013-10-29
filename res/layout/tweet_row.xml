@@ -41,18 +41,6 @@
         android:text="username" />
 
     <TextView
-        android:id="@+id/tweet_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/tweet_author"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="14sp"
-        android:ellipsize="end"
-        android:text="4m ago" />
-
-    <TextView
         android:id="@+id/tweet_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,4 +75,17 @@
         android:ellipsize="end"
         android:text="Retweeted by Some Author" />
 
+    <TextView
+        android:id="@+id/tweet_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tweet_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@id/tweet_retweet_author"
+        android:gravity="right"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:text="4m ago" />
 </RelativeLayout>
