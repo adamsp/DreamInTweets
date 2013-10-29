@@ -16,23 +16,22 @@
 
 package nz.net.speakman.android.dreamintweets.activities;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends DreamActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

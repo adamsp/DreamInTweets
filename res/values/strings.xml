@@ -3,6 +3,8 @@
 
     <string name="app_name">Dream In Tweets</string>
     
+    <string name="action_licenses">Licenses</string>
+    
     <string name="main_activity_signed_in_as">Signed in as @%s</string>
     <string name="main_activity_sign_out">Sign Out</string>
     <string name="main_activity_settings_enable_dream">Open Settings to enable Daydream</string>

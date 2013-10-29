@@ -4,8 +4,8 @@
     android:layout_height="match_parent" >
 
     <TextView
-        style="?android:attr/textAppearanceLarge"
         android:id="@+id/signed_in_as_text"
+        style="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/sign_out_button"
@@ -35,5 +35,6 @@
         android:layout_margin="8dp"
         android:onClick="onSettingsButtonClick"
         android:text="@string/main_activity_settings_enable_dream" />
+
 
 </RelativeLayout>

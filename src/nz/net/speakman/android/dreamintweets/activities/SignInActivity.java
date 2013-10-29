@@ -22,7 +22,6 @@ import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -33,7 +32,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class SignInActivity extends Activity {
+public class SignInActivity extends DreamActivity {
     
     private WebView mWebView;
     private RequestToken mRequestToken;
