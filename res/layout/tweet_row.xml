@@ -11,8 +11,8 @@
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/tweet_author_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/tweet_image_size"
+        android:layout_height="@dimen/tweet_image_size"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
-        android:textSize="18sp"
+        android:textSize="@dimen/tweet_text_size_author"
         android:ellipsize="end"
         android:text="author"
         android:textColor="@android:color/black"
@@ -36,7 +36,7 @@
         android:layout_alignBottom="@id/tweet_author"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author"
-        android:textSize="14sp"
+        android:textSize="@dimen/tweet_text_size_username"
         android:ellipsize="end"
         android:text="username" />
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tweet_author"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/tweet_text_size_content"
         android:layout_toRightOf="@id/tweet_author_image"
         android:singleLine="false"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue erat, at laoreet arcu. Donec egestas vestibulum condimentum metus."
@@ -54,8 +54,8 @@
     
     <ImageView
         android:id="@+id/tweet_retweet_icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/tweet_retweet_icon_size"
+        android:layout_height="@dimen/tweet_retweet_icon_size"
         android:layout_below="@id/tweet_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"
@@ -70,7 +70,7 @@
         android:layout_below="@id/tweet_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"
-        android:textSize="14sp"
+        android:textSize="@dimen/tweet_text_size_retweet_author"
         android:layout_toRightOf="@id/tweet_retweet_icon"
         android:ellipsize="end"
         android:text="Retweeted by Some Author" />
@@ -85,7 +85,7 @@
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@id/tweet_retweet_author"
         android:gravity="right"
-        android:textSize="14sp"
+        android:textSize="@dimen/tweet_text_size_timestamp"
         android:ellipsize="end"
         android:text="4m ago" />
 </RelativeLayout>
