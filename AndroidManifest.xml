@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nz.net.speakman.android.dreamintweets"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0" >
 
     <!-- Max SDK Temporarily set to 18 while I figure out the issue with closing the stream on KitKat. -->
