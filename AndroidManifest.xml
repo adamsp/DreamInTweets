@@ -4,9 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- Max SDK Temporarily set to 18 while I figure out the issue with closing the stream on KitKat. -->
     <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="18"
+        android:maxSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
