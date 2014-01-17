@@ -14,6 +14,8 @@
     
     <string name="not_signed_in_message">You\'re not signed in to Twitter! Tap anywhere to sign in.</string>
     
+    <string name="no_connectivity_message">Check your internet connection!</string>
+    
     <string name="tweet_retweet_icon_description">Retweet Icon</string>
     <string name="tweet_timestamp_x_days_ago">%s days ago</string>
     <string name="tweet_timestamp_1_day_ago">1 day ago</string>
