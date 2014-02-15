@@ -19,7 +19,6 @@ package nz.net.speakman.android.dreamintweets.twitterstream;
 import java.util.Date;
 import java.util.LinkedList;
 
-import nz.net.speakman.android.dreamintweets.DreamApplication;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.text.DreamLinkMovementMethod;
 import nz.net.speakman.android.dreamintweets.text.TextViewLinkHider;
@@ -36,10 +35,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 public class TwitterStreamAdapter extends BaseAdapter {
 
@@ -50,7 +49,8 @@ public class TwitterStreamAdapter extends BaseAdapter {
         TextView content;
         TextView retweetAuthor;
         View retweetIcon;
-        NetworkImageView authorImage;
+        ImageView authorImage;
+        ImageView contentImage;
     }
 
     private static final int MAX_NUMBER_OF_TWEETS = 50;
@@ -109,7 +109,7 @@ public class TwitterStreamAdapter extends BaseAdapter {
                     R.layout.tweet_row, parent, false);
             holder = new TwitterStreamViewHolder();
 
-            holder.authorImage = (NetworkImageView) convertView
+            holder.authorImage = (ImageView) convertView
                     .findViewById(R.id.tweet_author_image);
 
             holder.author = (TextView) convertView
@@ -134,6 +134,9 @@ public class TwitterStreamAdapter extends BaseAdapter {
             holder.retweetAuthor = (TextView) convertView
                     .findViewById(R.id.tweet_retweet_author);
             holder.retweetAuthor.setMovementMethod(lmm);
+            
+            holder.contentImage = (ImageView) convertView
+                    .findViewById(R.id.tweet_content_image);
 
             convertView.setTag(holder);
         } else {
@@ -153,13 +156,13 @@ public class TwitterStreamAdapter extends BaseAdapter {
             holder.retweetAuthor.setVisibility(View.GONE);
             holder.retweetIcon.setVisibility(View.GONE);
         }
-        
-        holder.authorImage.setImageUrl(tweet.getUser()
-                .getBiggerProfileImageURLHttps(), getImageLoader());
+       
         holder.author.setText(getTweetAuthor(tweet));
         holder.username.setText(getTweetUsername(tweet));
         holder.timestamp.setText(getTweetTimestamp(tweet));
         holder.content.setText(getTweetText(tweet));
+        
+        loadImages(holder, tweet);
 
         // Hide underlining/coloring of non-content links.
         hideLinks(holder);
@@ -228,11 +231,6 @@ public class TwitterStreamAdapter extends BaseAdapter {
         return Html.fromHtml(text);
     }
 
-    private ImageLoader getImageLoader() {
-        return ((DreamApplication) mDream.getApplicationContext())
-                .getImageLoader();
-    }
-
     private String getUserUrl(User user) {
         return String.format(URL_FORMAT_USER_LINK, user.getScreenName());
     }
@@ -269,6 +267,25 @@ public class TwitterStreamAdapter extends BaseAdapter {
         linkHider.hideLinks(holder.author);
         linkHider.hideLinks(holder.username);
         linkHider.hideLinks(holder.timestamp);
+    }
+    
+    private void loadImages(TwitterStreamViewHolder holder, Status tweet) {
+        Picasso picasso = Picasso.with(mDream);
+        // Author image
+        picasso.load(tweet.getUser().getBiggerProfileImageURLHttps())
+            .into(holder.authorImage);
+        
+        // Any media? If so, load the first one.
+        MediaEntity[] media = tweet.getMediaEntities();
+        // Photo is currently only media type; if they add more in future, we (obviously) don't handle that.
+        // https://dev.twitter.com/docs/entities#tweets
+        if (media != null && media.length > 0 && "photo".equals(media[0].getType())) {
+            holder.contentImage.setVisibility(View.VISIBLE);
+            picasso.load(media[0].getMediaURLHttps())
+                .into(holder.contentImage);
+        } else {
+            holder.contentImage.setVisibility(View.GONE);
+        }
     }
 
 }

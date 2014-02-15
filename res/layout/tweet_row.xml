@@ -9,7 +9,7 @@
     android:paddingRight="8dp"
     android:paddingTop="8dp" >
 
-    <com.android.volley.toolbox.NetworkImageView
+    <ImageView
         android:id="@+id/tweet_author_image"
         android:layout_width="@dimen/tweet_image_size"
         android:layout_height="@dimen/tweet_image_size"
@@ -23,10 +23,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
-        android:textSize="@dimen/tweet_text_size_author"
         android:ellipsize="end"
         android:text="author"
         android:textColor="@android:color/black"
+        android:textSize="@dimen/tweet_text_size_author"
         android:textStyle="bold" />
 
     <TextView
@@ -36,9 +36,9 @@
         android:layout_alignBottom="@id/tweet_author"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author"
-        android:textSize="@dimen/tweet_text_size_username"
         android:ellipsize="end"
-        android:text="username" />
+        android:text="username"
+        android:textSize="@dimen/tweet_text_size_username" />
 
     <TextView
         android:id="@+id/tweet_content"
@@ -46,46 +46,65 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tweet_author"
         android:layout_marginLeft="8dp"
-        android:textSize="@dimen/tweet_text_size_content"
         android:layout_toRightOf="@id/tweet_author_image"
         android:singleLine="false"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue erat, at laoreet arcu. Donec egestas vestibulum condimentum metus."
-        android:textColor="@android:color/black" />
-    
-    <ImageView
-        android:id="@+id/tweet_retweet_icon"
-        android:layout_width="@dimen/tweet_retweet_icon_size"
-        android:layout_height="@dimen/tweet_retweet_icon_size"
-        android:layout_below="@id/tweet_content"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/tweet_text_size_content" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tweet_content"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/tweet_author_image"
-        android:contentDescription="@string/tweet_retweet_icon_description"
-        android:src="@drawable/ic_retweet" />
-    
-    <TextView
-        android:id="@+id/tweet_retweet_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tweet_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="8dp"
-        android:textSize="@dimen/tweet_text_size_retweet_author"
-        android:layout_toRightOf="@id/tweet_retweet_icon"
-        android:ellipsize="end"
-        android:text="Retweeted by Some Author" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tweet_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tweet_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="8dp"
-        android:layout_toRightOf="@id/tweet_retweet_author"
-        android:gravity="right"
-        android:textSize="@dimen/tweet_text_size_timestamp"
-        android:ellipsize="end"
-        android:text="4m ago" />
+        <ImageView
+            android:id="@+id/tweet_content_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tweet_image_size"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/tweet_retweet_icon_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_retweet" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/tweet_retweet_icon"
+                android:layout_width="@dimen/tweet_retweet_icon_size"
+                android:layout_height="@dimen/tweet_retweet_icon_size"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/tweet_retweet_icon_description"
+                android:src="@drawable/ic_retweet" />
+
+            <TextView
+                android:id="@+id/tweet_retweet_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/tweet_retweet_icon"
+                android:ellipsize="end"
+                android:text="Retweeted by Some Author"
+                android:textSize="@dimen/tweet_text_size_retweet_author" />
+
+            <TextView
+                android:id="@+id/tweet_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/tweet_retweet_author"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:text="4m ago"
+                android:textSize="@dimen/tweet_text_size_timestamp" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </RelativeLayout>
