@@ -22,11 +22,13 @@ import java.util.LinkedList;
 import nz.net.speakman.android.dreamintweets.R;
 import nz.net.speakman.android.dreamintweets.text.DreamLinkMovementMethod;
 import nz.net.speakman.android.dreamintweets.text.TextViewLinkHider;
-import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.User;
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorInflater;
 import android.service.dreams.DreamService;
 import android.text.Html;
 import android.text.Spanned;
@@ -62,18 +64,21 @@ public class TwitterStreamAdapter extends BaseAdapter {
 
     private static final String URL_FORMAT_USER_LINK = "https://twitter.com/%s";
     
-    private final OnClickListener contentImageClickListener = new OnClickListener() {
+    // Click listener for the passed-in large content image.
+    private final OnClickListener contentImageLargeClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mFadeOutAnimator.start();
+        }
+    };
+    
+    // Click listener for the content image on a row.
+    private final OnClickListener contentImageRowClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             String mediaUrl = (String) v.getTag();
-            Picasso.with(mDream).load(mediaUrl).into(mContentImageView);
-            mContentImageView.setVisibility(View.VISIBLE);
-            mContentImageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.setVisibility(View.GONE);
-                }
-            });
+            Picasso.with(mDream).load(mediaUrl).into(mContentImageLargeView);
+            mFadeInAnimator.start();
         }
     };
 
@@ -81,11 +86,58 @@ public class TwitterStreamAdapter extends BaseAdapter {
 
     private DreamService mDream;
 
-    private ImageView mContentImageView;
+    private ImageView mContentImageLargeView;
 
-    public TwitterStreamAdapter(DreamService dream, ImageView contentImageView) {
+    private Animator mFadeInAnimator;
+    
+    private AnimatorListener mFadeInListener = new AnimatorListener() {
+        
+        @Override
+        public void onAnimationStart(Animator animation) {
+            mContentImageLargeView.setVisibility(View.VISIBLE);
+        }
+        
+        @Override
+        public void onAnimationRepeat(Animator animation) { }
+        
+        @Override
+        public void onAnimationEnd(Animator animation) { }
+        
+        @Override
+        public void onAnimationCancel(Animator animation) { }
+    };
+    
+    private Animator mFadeOutAnimator;
+
+    private AnimatorListener mFadeOutListener = new AnimatorListener() {
+        
+        @Override
+        public void onAnimationStart(Animator animation) { }
+        
+        @Override
+        public void onAnimationRepeat(Animator animation) { }
+        
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            mContentImageLargeView.setVisibility(View.GONE);
+        }
+        
+        @Override
+        public void onAnimationCancel(Animator animation) { }
+    };
+
+    public TwitterStreamAdapter(DreamService dream, ImageView contentImageLargeView) {
         mDream = dream;
-        mContentImageView = contentImageView;
+        mContentImageLargeView = contentImageLargeView;
+        mContentImageLargeView.setOnClickListener(contentImageLargeClickListener);
+        
+        mFadeInAnimator = AnimatorInflater.loadAnimator(mDream, android.R.animator.fade_in);
+        mFadeInAnimator.addListener(mFadeInListener);
+        mFadeInAnimator.setTarget(mContentImageLargeView);
+        
+        mFadeOutAnimator = AnimatorInflater.loadAnimator(mDream, android.R.animator.fade_out);
+        mFadeOutAnimator.addListener(mFadeOutListener);
+        mFadeOutAnimator.setTarget(mContentImageLargeView);
     }
 
     public void onNewStatus(Status status) {
@@ -244,9 +296,9 @@ public class TwitterStreamAdapter extends BaseAdapter {
                     getClickableMedia(mediaEntity));
         }
 
-        for (HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
-            // TODO Make clickable
-        }
+//        for (HashtagEntity hashtagEntity : tweet.getHashtagEntities()) {
+//            // TODO Make clickable
+//        }
         return Html.fromHtml(text);
     }
 
@@ -271,9 +323,9 @@ public class TwitterStreamAdapter extends BaseAdapter {
         return getClickableUrl(entity);
     }
 
-    private String getClickableHashtag(HashtagEntity entity) {
-        return "";
-    }
+//    private String getClickableHashtag(HashtagEntity entity) {
+//        return "";
+//    }
     
     private void hideLinkUnderlines(TwitterStreamViewHolder holder) {
         TextViewLinkHider linkHider = new TextViewLinkHider();
@@ -302,8 +354,8 @@ public class TwitterStreamAdapter extends BaseAdapter {
             holder.contentImage.setVisibility(View.VISIBLE);
             final String mediaUrl = media[0].getMediaURLHttps();
             picasso.load(mediaUrl).into(holder.contentImage);
-            holder.contentImage.setOnClickListener(contentImageClickListener);
             holder.contentImage.setTag(mediaUrl);
+            holder.contentImage.setOnClickListener(contentImageRowClickListener);
         } else {
             holder.contentImage.setVisibility(View.GONE);
         }
