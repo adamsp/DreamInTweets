@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/tweet_author_image"
-        android:layout_width="@dimen/tweet_image_size"
-        android:layout_height="@dimen/tweet_image_size"
+        android:layout_width="@dimen/tweet_author_image_size"
+        android:layout_height="@dimen/tweet_author_image_size"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
@@ -65,7 +65,7 @@
         <ImageView
             android:id="@+id/tweet_content_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tweet_image_size"
+            android:layout_height="@dimen/tweet_image_height"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/tweet_retweet_icon_description"

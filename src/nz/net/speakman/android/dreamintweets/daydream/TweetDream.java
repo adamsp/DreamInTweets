@@ -33,6 +33,7 @@ import android.os.AsyncTask;
 import android.service.dreams.DreamService;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class TweetDream extends DreamService {
@@ -125,9 +126,10 @@ public class TweetDream extends DreamService {
         }
         mDisplayingTweets = true;
         setContentView(R.layout.dream_twitter_stream);
+        ImageView overlay = (ImageView)findViewById(R.id.dream_twitter_stream_image_overlay);
         
         ListView lv = (ListView) findViewById(R.id.dream_twitter_stream_list_view);
-        TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(this);
+        TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(this, overlay);
         lv.setAdapter(streamAdapter);
 
         TwitterStreamListener streamListener = new TwitterStreamListener(streamAdapter);

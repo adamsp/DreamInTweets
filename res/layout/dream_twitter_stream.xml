@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dream_twitter_stream_list_view"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp"
-    android:background="#e5e5e5"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="4dp"/>
+    android:layout_height="match_parent" >
+
+    <ListView
+        android:id="@+id/dream_twitter_stream_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/list_view_background"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="4dp"
+        android:padding="8dp" />
+
+    <ImageView
+        android:id="@+id/dream_twitter_stream_image_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/image_overlay_padding"
+        android:background="@color/image_overlay_background"
+        android:visibility="gone" />
+
+</RelativeLayout>

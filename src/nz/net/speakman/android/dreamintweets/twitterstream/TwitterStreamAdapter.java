@@ -33,6 +33,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -60,13 +61,31 @@ public class TwitterStreamAdapter extends BaseAdapter {
     private static final String URL_FORMAT_TWEET_LINK = "https://twitter.com/%1$s/status/%2$s";
 
     private static final String URL_FORMAT_USER_LINK = "https://twitter.com/%s";
+    
+    private final OnClickListener contentImageClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String mediaUrl = (String) v.getTag();
+            Picasso.with(mDream).load(mediaUrl).into(mContentImageView);
+            mContentImageView.setVisibility(View.VISIBLE);
+            mContentImageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setVisibility(View.GONE);
+                }
+            });
+        }
+    };
 
     LinkedList<Status> mTweets = new LinkedList<Status>();
 
     private DreamService mDream;
 
-    public TwitterStreamAdapter(DreamService dream) {
+    private ImageView mContentImageView;
+
+    public TwitterStreamAdapter(DreamService dream, ImageView contentImageView) {
         mDream = dream;
+        mContentImageView = contentImageView;
     }
 
     public void onNewStatus(Status status) {
@@ -281,8 +300,10 @@ public class TwitterStreamAdapter extends BaseAdapter {
         // https://dev.twitter.com/docs/entities#tweets
         if (media != null && media.length > 0 && "photo".equals(media[0].getType())) {
             holder.contentImage.setVisibility(View.VISIBLE);
-            picasso.load(media[0].getMediaURLHttps())
-                .into(holder.contentImage);
+            final String mediaUrl = media[0].getMediaURLHttps();
+            picasso.load(mediaUrl).into(holder.contentImage);
+            holder.contentImage.setOnClickListener(contentImageClickListener);
+            holder.contentImage.setTag(mediaUrl);
         } else {
             holder.contentImage.setVisibility(View.GONE);
         }
