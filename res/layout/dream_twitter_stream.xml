@@ -12,7 +12,7 @@
         android:dividerHeight="4dp"
         android:padding="8dp" />
 
-    <ImageView
+    <nz.net.speakman.android.dreamintweets.widget.TouchImageView
         android:id="@+id/dream_twitter_stream_image_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

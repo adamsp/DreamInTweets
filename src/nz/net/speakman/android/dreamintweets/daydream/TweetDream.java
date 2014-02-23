@@ -22,6 +22,7 @@ import nz.net.speakman.android.dreamintweets.activities.SignInActivity;
 import nz.net.speakman.android.dreamintweets.preferences.DreamPreferences;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamAdapter;
 import nz.net.speakman.android.dreamintweets.twitterstream.TwitterStreamListener;
+import nz.net.speakman.android.dreamintweets.widget.TouchImageView;
 import twitter4j.TwitterStream;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -126,7 +127,9 @@ public class TweetDream extends DreamService {
         }
         mDisplayingTweets = true;
         setContentView(R.layout.dream_twitter_stream);
-        ImageView overlay = (ImageView)findViewById(R.id.dream_twitter_stream_image_overlay);
+        TouchImageView overlay = (TouchImageView)findViewById(R.id.dream_twitter_stream_image_overlay);
+        // We want to reset zoom when a new image is opened.
+        overlay.maintainZoomAfterSetImage(false); 
         
         ListView lv = (ListView) findViewById(R.id.dream_twitter_stream_list_view);
         TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(this, overlay);
