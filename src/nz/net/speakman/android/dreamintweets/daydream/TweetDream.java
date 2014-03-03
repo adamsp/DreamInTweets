@@ -129,6 +129,7 @@ public class TweetDream extends DreamService {
         overlay.maintainZoomAfterSetImage(false); 
         
         ListView lv = (ListView) findViewById(R.id.dream_twitter_stream_list_view);
+        lv.setEmptyView(findViewById(R.id.dream_twitter_stream_empty_list));
         TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(TweetDream.this, overlay);
         lv.setAdapter(streamAdapter);
 

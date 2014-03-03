@@ -9,6 +9,8 @@
     <string name="main_activity_sign_out">Sign Out</string>
     <string name="main_activity_settings_enable_dream">Open Settings to enable Daydream</string>
     
+    <string name="list_view_empty_loading_text">Waiting for Tweets...</string>
+    
     <string name="login_activity_sign_in_with_twitter">Sign In with Twitter</string>
     <string name="login_activity_sign_up_for_twitter">Sign Up for Twitter</string>
     

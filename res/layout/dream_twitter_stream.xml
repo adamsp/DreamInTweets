@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/list_view_background" >
 
     <ListView
         android:id="@+id/dream_twitter_stream_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/list_view_background"
         android:divider="@android:color/transparent"
         android:dividerHeight="4dp"
         android:padding="8dp" />
+
+    <LinearLayout
+        android:id="@+id/dream_twitter_stream_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/list_view_empty_loading_text"
+            android:text="@string/list_view_empty_loading_text" />
+    </LinearLayout>
 
     <nz.net.speakman.android.dreamintweets.widget.TouchImageView
         android:id="@+id/dream_twitter_stream_image_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/image_overlay_padding"
         android:background="@color/image_overlay_background"
+        android:padding="@dimen/image_overlay_padding"
         android:visibility="gone" />
 
 </RelativeLayout>

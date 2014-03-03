@@ -2,6 +2,7 @@
 <resources>
     
     <color name="list_view_background">#e5e5e5</color>
+    <color name="list_view_empty_loading_text">#f555</color>
     <color name="image_overlay_background">#9000</color>
     
 </resources>
