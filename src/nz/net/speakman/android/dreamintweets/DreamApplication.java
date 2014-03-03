@@ -10,14 +10,12 @@ import android.app.Application;
 
 public class DreamApplication extends Application {
 
-    private TwitterStream mTwitterStream;
     private Twitter mTwitter;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mTwitter = new TwitterFactory(getConf()).getInstance();
-        mTwitterStream = new TwitterStreamFactory(getConf()).getInstance();
     }
 
     public Twitter getTwitter() {
@@ -25,7 +23,7 @@ public class DreamApplication extends Application {
     }
 
     public TwitterStream getTwitterStream() {
-        return mTwitterStream;
+        return new TwitterStreamFactory(getConf()).getInstance();
     }
 
     private static Configuration getConf() {

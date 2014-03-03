@@ -34,12 +34,10 @@ import android.os.AsyncTask;
 import android.service.dreams.DreamService;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class TweetDream extends DreamService {
     
-    private TwitterStream twitterStream;
     private BroadcastReceiver mConnectivityBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -51,6 +49,15 @@ public class TweetDream extends DreamService {
         }
     };
     private IntentFilter mConnectivityBroadcastFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    
+    private TwitterStream _twitterStream;
+    
+    private TwitterStream getTwitterStream() {
+        if (_twitterStream == null) {
+            _twitterStream = ((DreamApplication)getApplication()).getTwitterStream();
+        }
+        return _twitterStream;
+    }
     
     /**
      * <p>
@@ -90,17 +97,7 @@ public class TweetDream extends DreamService {
     public void onDreamingStopped() {
         super.onDreamingStopped();
         unregisterForConnectivityChangeBroadcasts();
-        // As of 4.4 KitKat, have to close the stream off the UI thread.
-        // Also, it now appears to take up to 30 seconds to return.
-        // http://stackoverflow.com/q/20306498/1217087
-        if(twitterStream != null) {
-            new AsyncTask<TwitterStream, Void, Void>() {
-                @Override protected Void doInBackground(TwitterStream... params) {
-                    params[0].shutdown();
-                    return null;
-                }
-            }.execute(twitterStream);
-        }
+        stopTwitterStream();
     }
     
     private void displayNotLoggedIn() {
@@ -132,14 +129,48 @@ public class TweetDream extends DreamService {
         overlay.maintainZoomAfterSetImage(false); 
         
         ListView lv = (ListView) findViewById(R.id.dream_twitter_stream_list_view);
-        TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(this, overlay);
+        TwitterStreamAdapter streamAdapter = new TwitterStreamAdapter(TweetDream.this, overlay);
         lv.setAdapter(streamAdapter);
 
         TwitterStreamListener streamListener = new TwitterStreamListener(streamAdapter);
-        twitterStream = ((DreamApplication)getApplication()).getTwitterStream();
+        TwitterStream twitterStream = getTwitterStream();
         twitterStream.setOAuthAccessToken(mPreferences.getAccessToken());
         twitterStream.addListener(streamListener);
-        twitterStream.user();
+        
+        startTwitterStream();
+    }
+    
+    private void startTwitterStream() {
+        /*
+         * Because of the issue with KitKat streaming, there's the potential for
+         * the previous stream to not be closed when we try to open the new one.
+         * The TwitterStream#user() call locks the UI while we wait for the
+         * previous one to close. Instead, we should try to open it on a
+         * background thread.
+         * http://stackoverflow.com/q/20306498/1217087
+         */
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                getTwitterStream().user();
+                return null;
+            }
+        }.execute();
+    }
+    
+    private void stopTwitterStream() {
+        /*
+         * As of 4.4 KitKat, have to close the stream off the UI thread. Also,
+         * it now appears to take up to 30 seconds to return (or sooner if a new
+         * tweet is received). 
+         * http://stackoverflow.com/q/20306498/1217087
+         */
+        new AsyncTask<Void, Void, Void>() {
+            @Override protected Void doInBackground(Void... params) {
+                getTwitterStream().shutdown();
+                return null;
+            }
+        }.execute();
     }
     
     private boolean isConnected() {
